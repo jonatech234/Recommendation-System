@@ -1,3 +1,4 @@
 streamlit
+gdown
 #local packages (everything in setup.py)
 -e .
