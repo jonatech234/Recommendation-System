@@ -2,7 +2,7 @@ import pickle
 import streamlit as st
 import requests
 import pandas as pd
-
+import io  
 
 def fetch_poster(movie_id):
     url = "https://api.themoviedb.org/3/movie/{}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US".format(movie_id)
@@ -10,7 +10,7 @@ def fetch_poster(movie_id):
     data = data.json()
     poster_path = data.get('poster_path') 
     if poster_path:
-        full_path = "https://image.tmdb.0rg/t/p/w500/" + poster_path
+        full_path = "https://image.tmdb.org/t/p/w500/" + poster_path
     else:
         full_path = "https://via.placeholder.com/500x750?text=No+Image"
     return full_path
@@ -30,8 +30,8 @@ def recommend(movie):
 
 st.header("Movies Recommendation Sytem Using ML")
 # Example Google Drive direct link
-url1 = "https://drive.google.com/file/d/1No5I5CtE1kC2404sGamLWVJH8mW83FVa/view?usp=drive_link"
-url2 = "https://drive.google.com/file/d/1ktKeIokj74omtoBnkUPBlcyVGALdojpo/view?usp=drive_link"
+url1 = "https://drive.google.com/uc?export=download&id=1No5I5CtE1kC2404sGamLWVJH8mW83FVa"
+url2 = "https://drive.google.com/uc?export=download&id=1ktKeIokj74omtoBnkUPBlcyVGALdojpo"
 
 r = requests.get(url1)
 r1 = requests.get(url2)
