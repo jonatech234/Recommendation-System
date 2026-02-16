@@ -3,6 +3,7 @@ import streamlit as st
 import requests
 import pandas as pd
 import io  
+import gdown
 
 def fetch_poster(movie_id):
     url = "https://api.themoviedb.org/3/movie/{}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US".format(movie_id)
@@ -30,15 +31,41 @@ def recommend(movie):
 
 st.header("Movies Recommendation Sytem Using ML")
 # Example Google Drive direct link
-url1 = "https://drive.google.com/uc?export=download&id=1No5I5CtE1kC2404sGamLWVJH8mW83FVa"
-url2 = "https://drive.google.com/uc?export=download&id=1ktKeIokj74omtoBnkUPBlcyVGALdojpo"
+#url1 = "https://drive.google.com/uc?export=download&id=1No5I5CtE1kC2404sGamLWVJH8mW83FVa"
+#url2 = "https://drive.google.com/uc?export=download&id=1ktKeIokj74omtoBnkUPBlcyVGALdojpo"
 
-r = requests.get(url1)
-r1 = requests.get(url2)
-movies_dict = pickle.load(io.BytesIO(r.content))
+# Folder to store downloaded files
+if not os.path.exists("artifacts"):
+    os.mkdir("artifacts")
+
+# Google Drive file IDs
+movie_dict_id = "1No5I5CtE1kC2404sGamLWVJH8mW83FVa"
+similarity_id = "1ktKeIokj74omtoBnkUPBlcyVGALdojpo"
+
+# Download files if not already downloaded
+movie_dict_file = "artifacts/movie_dict.pkl"
+similarity_file = "artifacts/similarity.pkl"
+
+if not os.path.exists(movie_dict_file):
+    gdown.download(f"https://drive.google.com/uc?id={movie_dict_id}", movie_dict_file, quiet=False)
+
+if not os.path.exists(similarity_file):
+    gdown.download(f"https://drive.google.com/uc?id={similarity_id}", similarity_file, quiet=False)
+
+# Load pickle files
+with open(movie_dict_file, "rb") as f:
+    movies_dict = pickle.load(f)
+
+with open(similarity_file, "rb") as f:
+    similarity = pickle.load(f)
+
+
+#r = requests.get(url1)
+#r1 = requests.get(url2)
+#movies_dict = pickle.load(io.BytesIO(r.content))
 # movies_dict = pickle.load(open('artifacts/movie_dict.pkl', 'rb'))
 # similarity = pickle.load(open('artifacts/similarity.pkl', 'rb'))
-similarity  = pickle.load(io.BytesIO(r1.content))
+#similarity  = pickle.load(io.BytesIO(r1.content))
 movies = pd.DataFrame(movies_dict)
 movie_list = movies['title'].values
 
