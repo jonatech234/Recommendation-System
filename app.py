@@ -10,7 +10,7 @@ def fetch_poster(movie_id):
     data = data.json()
     poster_path = data.get('poster_path') 
     if poster_path:
-        full_path = "https://image.tmdb.org/t/p/w500/" + poster_path
+        full_path = "https://image.tmdb.0rg/t/p/w500/" + poster_path
     else:
         full_path = "https://via.placeholder.com/500x750?text=No+Image"
     return full_path
@@ -29,8 +29,16 @@ def recommend(movie):
     return recommended_movies_name, recommended_movies_poster
 
 st.header("Movies Recommendation Sytem Using ML")
-movies_dict = pickle.load(open('artifacts/movie_dict.pkl', 'rb'))
-similarity = pickle.load(open('artifacts/similarity.pkl', 'rb'))
+# Example Google Drive direct link
+url1 = "https://drive.google.com/file/d/1No5I5CtE1kC2404sGamLWVJH8mW83FVa/view?usp=drive_link"
+url2 = "https://drive.google.com/file/d/1ktKeIokj74omtoBnkUPBlcyVGALdojpo/view?usp=drive_link"
+
+r = requests.get(url1)
+r1 = requests.get(url2)
+movies_dict = pickle.load(io.BytesIO(r.content))
+# movies_dict = pickle.load(open('artifacts/movie_dict.pkl', 'rb'))
+# similarity = pickle.load(open('artifacts/similarity.pkl', 'rb'))
+similarity  = pickle.load(io.BytesIO(r1.content))
 movies = pd.DataFrame(movies_dict)
 movie_list = movies['title'].values
 
