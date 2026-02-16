@@ -1,0 +1,3 @@
+artifacts/
+*.pkl
+*.ipynb_checkpoints
